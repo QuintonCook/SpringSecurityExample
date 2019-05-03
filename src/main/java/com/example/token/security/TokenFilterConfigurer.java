@@ -9,13 +9,15 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 public class TokenFilterConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-	public TokenFilterConfigurer() {
-		// TODO Auto-generated constructor stub
+	private TokenProvider tokenProvider;
+	
+	public TokenFilterConfigurer(TokenProvider tokenProvider) {
+		this.tokenProvider = tokenProvider;
 	}
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		TokenFilter customFilter = new TokenFilter();
+		TokenFilter customFilter = new TokenFilter(tokenProvider);
 		http.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 

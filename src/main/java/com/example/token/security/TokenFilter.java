@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -16,7 +15,7 @@ import com.example.exception.CustomException;
 
 public class TokenFilter extends OncePerRequestFilter {
 
-	TokenProvider tokenProvider;
+	private TokenProvider tokenProvider;
 
 	public TokenFilter(TokenProvider tokenProvider) {
 		this.tokenProvider = tokenProvider;
@@ -39,6 +38,8 @@ public class TokenFilter extends OncePerRequestFilter {
 			SecurityContextHolder.clearContext();
 			response.sendError(ex.getHttpStatus().value(), ex.getMessage());
 		}
+
+		filterChain.doFilter(request, response);
 
 	}
 

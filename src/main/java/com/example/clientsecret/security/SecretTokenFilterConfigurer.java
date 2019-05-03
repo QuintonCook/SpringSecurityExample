@@ -3,6 +3,7 @@ package com.example.clientsecret.security;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 public class SecretTokenFilterConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
@@ -16,7 +17,7 @@ public class SecretTokenFilterConfigurer extends SecurityConfigurerAdapter<Defau
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		SecretTokenFilter customFilter = new SecretTokenFilter(secretTokenProvider);
-		http.addFilterBefore(customFilter, OncePerRequestFilter.class);
+		http.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 
 }

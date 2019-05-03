@@ -7,13 +7,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
+import com.example.token.security.TokenFilterConfigurer;
+import com.example.token.security.TokenProvider;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
+	TokenProvider tokenProvider;
+
+	@Autowired
 	SecretTokenProvider secretTokenProvider;
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
@@ -25,12 +31,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// Entry points
 		http.authorizeRequests()//
-				.antMatchers("/h2-console/**/**").permitAll()
-				.antMatchers("/login").permitAll();
+				.antMatchers("/h2-console").permitAll()
+				.antMatchers("/login").permitAll()
 				// Disallow everything else..
+        		.anyRequest().authenticated();
 
-		// Apply Token
-		http.apply(new SecretTokenFilterConfigurer(secretTokenProvider));
+		// Apply Token this is the client secret config that works
+		//http.apply(new SecretTokenFilterConfigurer(secretTokenProvider));
+		
+		http.apply(new TokenFilterConfigurer(tokenProvider));
 	}
 
 }
