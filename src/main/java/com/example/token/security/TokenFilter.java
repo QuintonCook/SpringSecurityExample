@@ -39,6 +39,7 @@ public class TokenFilter extends OncePerRequestFilter {
 			response.sendError(ex.getHttpStatus().value(), ex.getMessage());
 		}
 
+		//make sure you call this at the end!
 		filterChain.doFilter(request, response);
 
 	}
