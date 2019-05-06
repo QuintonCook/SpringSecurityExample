@@ -44,7 +44,6 @@ public class CarController {
 		if(tmp != null) {
 			return tokenProvider.grantToken(username,tmp.getRoles()); 
 		}else {
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!DENIED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			return null;
 		}
 	}

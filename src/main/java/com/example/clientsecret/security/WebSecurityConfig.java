@@ -30,15 +30,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		// Entry points
+		// Entry points
 		http.authorizeRequests()//
-				.antMatchers("/h2-console").permitAll()
-				.antMatchers("/login").permitAll()
+				.antMatchers("/h2-console").permitAll().antMatchers("/login").permitAll()
 				// Disallow everything else..
-        		.anyRequest().authenticated();
+				.anyRequest().authenticated();
 
-		// Apply Token this is the client secret config that works
-		//http.apply(new SecretTokenFilterConfigurer(secretTokenProvider));
-		
 		http.apply(new TokenFilterConfigurer(tokenProvider));
 	}
 
